@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "481242424774",
+    "firebase_url": "https://help-mate-ccc8c.firebaseio.com",
+    "project_id": "help-mate-ccc8c",
+    "storage_bucket": "help-mate-ccc8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481242424774:android:0fbe76643a9cae2f",
+        "android_client_info": {
+          "package_name": "com.juborajsarker.helpmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481242424774-09hep5semqak29p0ete492kdtf1fauap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juborajsarker.helpmate",
+            "certificate_hash": "63c809115ca3e2a5917bfa164acde72d57b1f485"
+          }
+        },
+        {
+          "client_id": "481242424774-h0b1r2bio28a6mji33l57l69pqijk5o8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqnZWIQ7kTu5jgB9PPd5C5pANe51Qm5kk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481242424774-h0b1r2bio28a6mji33l57l69pqijk5o8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

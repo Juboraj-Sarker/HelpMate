@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_inbox"
+            android:icon="@drawable/ic_email"
+            android:title="Inbox" />
+        <item
+            android:id="@+id/nav_search_expert"
+            android:icon="@drawable/ic_search"
+            android:title="Search Expert" />
+        <item
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/ic_favorite"
+            android:title="Favourite" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_user"
+            android:title="Profile" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+
+            <item
+                android:id="@+id/nav_terms_and_condition"
+                android:icon="@drawable/ic_password"
+                android:title="Terms and Conditions" />
+
+            <item
+                android:id="@+id/nav_privacy_and_policy"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Privacy and Policy" />
+
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_star"
+                android:title="Rate us" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit"
+                android:title="Logout" />
+
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_cancel"
+                android:title="Exit" />
+
+
+        </menu>
+    </item>
+
+</menu>

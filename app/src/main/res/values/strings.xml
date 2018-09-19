@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Help Mate</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="expert_category">
+
+        <item>Select Category</item>
+        <item>Broadband</item>
+        <item>Carpenter</item>
+        <item>Computer</item>
+        <item>Cook</item>
+        <item>Cobbler</item>
+        <item>Decorator</item>
+        <item>Doctor</item>
+        <item>Designer</item>
+        <item>Driver</item>
+        <item>Electrician</item>
+        <item>Gas Technician</item>
+        <item>Laundry</item>
+        <item>Locksmith</item>
+        <item>Lawyer</item>
+        <item>Marketing</item>
+        <item>Mobile Servicing</item>
+        <item>Painter</item>
+        <item>Programmer</item>
+        <item>Plumber</item>
+        <item>Rent a Car</item>
+
+    </string-array>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+</resources>
