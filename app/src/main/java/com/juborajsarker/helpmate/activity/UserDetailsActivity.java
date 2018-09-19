@@ -1,7 +1,12 @@
 package com.juborajsarker.helpmate.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,13 +24,14 @@ public class UserDetailsActivity extends AppCompatActivity {
 
 
     String fullName, userName, phone, email, city, country;
-
+    public static final int MY_PERMISSIONS_REQUEST_CALL = 52;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
 
+        checkCallPermission();
         init();
 
     }
@@ -50,6 +56,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                sendEmail(emailTV.getText().toString());
 
             }
         });
@@ -58,6 +65,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                makeCall(phoneTV.getText().toString());
 
             }
         });
@@ -67,6 +75,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                startActivity(new Intent(UserDetailsActivity.this, ChattingActivity.class));
 
             }
         });
@@ -97,6 +106,32 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
 
+    public void makeCall(String number){
+
+        if (phoneTV.getText().toString().equals("")){
+
+            Toast.makeText(UserDetailsActivity.this, "No number found for phone call !!!", Toast.LENGTH_SHORT).show();
+
+
+        }else {
+
+
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + number));
+
+            if (!checkCallPermission()) {
+
+                checkCallPermission();
+
+            }else {
+
+                startActivity(callIntent);
+            }
+
+
+        }
+    }
+
 
     public void sendEmail(String email) {
 
@@ -112,5 +147,28 @@ public class UserDetailsActivity extends AppCompatActivity {
             Toast.makeText(UserDetailsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public boolean checkCallPermission() {
+
+
+        if (ContextCompat.checkSelfPermission(UserDetailsActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+
+            ActivityCompat.requestPermissions(UserDetailsActivity.this,
+                    new String[]{Manifest.permission.CALL_PHONE},
+                    MY_PERMISSIONS_REQUEST_CALL);
+
+
+            return false;
+
+        } else {
+
+            return true;
+        }
+    }
+
+
 
 }

@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:padding="5dp">
 
 
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="Juboraj Sarker"
+                android:text=""
                 android:padding="5dp"
                 android:gravity="center"/>
 
@@ -195,7 +195,7 @@
                         android:id="@+id/user_name_TV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Juboraj Sarker"
+                        android:text=""
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -240,7 +240,7 @@
                         android:id="@+id/phone_TV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="01938365335"
+                        android:text=""
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -289,7 +289,7 @@
                         android:id="@+id/email_TV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="juborajsarker001@gmail.com"
+                        android:text=""
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -342,7 +342,7 @@
                         android:id="@+id/city_name_TV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Uttara"
+                        android:text=""
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -391,7 +391,7 @@
                         android:id="@+id/country_name_TV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Bangladesh"
+                        android:text=""
                         android:textSize="14sp"/>
 
                 </LinearLayout>

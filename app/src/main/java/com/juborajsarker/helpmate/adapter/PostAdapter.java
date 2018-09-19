@@ -2,6 +2,7 @@ package com.juborajsarker.helpmate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -33,9 +34,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.juborajsarker.helpmate.R;
+import com.juborajsarker.helpmate.activity.UserDetailsActivity;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
 import com.juborajsarker.helpmate.model.CommentModel;
 import com.juborajsarker.helpmate.model.PostModel;
+import com.juborajsarker.helpmate.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView postTV, userNameTV;
-        ImageView postIV;
+        ImageView postIV, userIV;
         LinearLayout likeLAYOUT, commentLAYOUT, bitLAYOUT;
         CardView additionalCV;
         RecyclerView commentRV;
@@ -75,6 +78,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             postTV = (TextView) view.findViewById(R.id.post_TV);
             userNameTV = (TextView) view.findViewById(R.id.user_name_TV);
             postIV = (ImageView) view.findViewById(R.id.post_IV);
+            userIV = (ImageView) view.findViewById(R.id.user_IV);
             likeLAYOUT = (LinearLayout) view.findViewById(R.id.like_LAYOUT);
             commentLAYOUT = (LinearLayout) view.findViewById(R.id.comment_LAYOUT);
             bitLAYOUT = (LinearLayout) view.findViewById(R.id.bit_LAYOUT);
@@ -176,6 +180,71 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         });
 
 
+        holder.userIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showUserDetails(post);
+            }
+        });
+
+
+        holder.userNameTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               showUserDetails(post);
+            }
+        });
+
+
+    }
+
+
+
+
+    private void showUserDetails(PostModel post) {
+
+        final String uid = post.getUserID();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User/All");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                    UserModel userModel = snapshot.getValue(UserModel.class);
+
+                    if (userModel.getUserID().equals(uid)){
+
+                        String fullName = userModel.getFullName();
+                        String userName = userModel.getUserName();
+                        String phone = userModel.getPhone();
+                        String email = userModel.getEmail();
+                        String city = userModel.getCity();
+                        String country = userModel.getCountry();
+
+                        Intent intent = new Intent(context, UserDetailsActivity.class);
+                        intent.putExtra("fullName", fullName);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("email", email);
+                        intent.putExtra("city", city);
+                        intent.putExtra("country", country);
+
+                        context.startActivity(intent);
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void postComment(PostModel post, EditText commentEt, RecyclerView commentRV) {

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 builder = new AlertDialog.Builder(this);
             }
             builder.setTitle("Thanks for using my app")
-                    .setMessage("\nAre you sure you want to really exit?")
+                    .setMessage("Are you sure you want to really exit?")
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 

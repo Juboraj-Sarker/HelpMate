@@ -33,7 +33,8 @@
             android:label="@string/title_activity_bottom_navigation" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.ForgetPasswordActivity" />
-        <activity android:name=".activity.UserDetailsActivity"></activity>
+        <activity android:name=".activity.UserDetailsActivity" />
+        <activity android:name=".activity.ChattingActivity"></activity>
     </application>
 
 </manifest>
