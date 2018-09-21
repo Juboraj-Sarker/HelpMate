@@ -36,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.activity.UserDetailsActivity;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
+import com.juborajsarker.helpmate.java_class.GetSingleUserInfo;
 import com.juborajsarker.helpmate.model.CommentModel;
 import com.juborajsarker.helpmate.model.PostModel;
 import com.juborajsarker.helpmate.model.UserModel;
@@ -43,7 +44,8 @@ import com.juborajsarker.helpmate.model.UserModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
+public class
+PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
     public Context context;
     public Activity activity;
@@ -226,6 +228,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                         String country = userModel.getCountry();
 
                         Intent intent = new Intent(context, UserDetailsActivity.class);
+                        intent.putExtra("toUserId", uid);
                         intent.putExtra("fullName", fullName);
                         intent.putExtra("userName", userName);
                         intent.putExtra("phone", phone);
@@ -245,6 +248,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
             }
         });
+
+
+
     }
 
     private void postComment(PostModel post, EditText commentEt, RecyclerView commentRV) {

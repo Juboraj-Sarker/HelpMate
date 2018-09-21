@@ -27,6 +27,7 @@
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/user_IV"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     app:srcCompat="@drawable/ic_user"

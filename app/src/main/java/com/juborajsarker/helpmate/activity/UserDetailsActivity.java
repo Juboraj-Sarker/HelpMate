@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +26,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     LinearLayout emailLAYOUT, callLAYOUT, messageLAYOUT;
 
 
-    String fullName, userName, phone, email, city, country;
+    String fullName, userName, phone, email, city, country, toUserId;
     public static final int MY_PERMISSIONS_REQUEST_CALL = 52;
 
     @Override
@@ -31,8 +34,19 @@ public class UserDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+
         checkCallPermission();
         init();
+        receiveData();
+        setTitle(fullName);
 
     }
 
@@ -49,7 +63,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         callLAYOUT = (LinearLayout) findViewById(R.id.send_call_LAYOUT);
         messageLAYOUT = (LinearLayout) findViewById(R.id.send_message_LAYOUT);
 
-        receiveData();
+
 
         emailLAYOUT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +89,10 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(UserDetailsActivity.this, ChattingActivity.class));
+                Intent intent = new Intent(UserDetailsActivity.this, ChattingActivity.class);
+                intent.putExtra("toUserId", toUserId);
+                intent.putExtra("fullName", fullName);
+                startActivity(intent);
 
             }
         });
@@ -86,6 +103,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     public void receiveData(){
 
         Intent intent = getIntent();
+        toUserId = intent.getStringExtra("toUserId");
         fullName = intent.getStringExtra("fullName");
         userName = intent.getStringExtra("userName");
         phone = intent.getStringExtra("phone");
@@ -169,6 +187,25 @@ public class UserDetailsActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:{
+
+                super.onBackPressed();
+
+            }default:{
+
+                return super.onOptionsItemSelected(item);
+            }
+
+
+
+        }
+
+    }
 
 
 }
