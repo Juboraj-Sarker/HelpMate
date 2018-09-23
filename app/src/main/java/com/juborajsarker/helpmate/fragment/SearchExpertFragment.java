@@ -1,41 +1,53 @@
 package com.juborajsarker.helpmate.fragment;
 
 
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.juborajsarker.helpmate.R;
-import com.juborajsarker.helpmate.activity.SearchResultActivity;
+import com.juborajsarker.helpmate.adapter.ExpertListAdapter;
+import com.juborajsarker.helpmate.java_class.GridSpacingItemDecoration;
+import com.juborajsarker.helpmate.model.UserModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SearchExpertFragment extends Fragment {
 
     View view;
     Spinner categorySP;
-    EditText locationET;
-    Button searchExpertBTN;
+    EditText cityET;
+    ImageView searchIV;
+    RecyclerView expertRV;
 
-    double lat, lng;
+    String city, category, country;
+    List<UserModel> expertList = new ArrayList<>();
+
+    ProgressDialog progressDialog;
+
+
 
 
     public SearchExpertFragment() {
@@ -48,6 +60,9 @@ public class SearchExpertFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_search_expert, container, false);
 
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Searching ... Please wait");
+        progressDialog.setCancelable(true);
         init();
 
 
@@ -57,42 +72,69 @@ public class SearchExpertFragment extends Fragment {
     private void init() {
 
         categorySP = (Spinner)view.findViewById(R.id.SP_category);
-        locationET = (EditText)view.findViewById(R.id.locationET);
-        searchExpertBTN = (Button)view.findViewById(R.id.search_expert_BTN);
+        cityET = (EditText)view.findViewById(R.id.city_ET);
+        searchIV = (ImageView) view.findViewById(R.id.search_IV);
+        expertRV = (RecyclerView) view.findViewById(R.id.expert_RV);
 
-        searchExpertBTN.setOnClickListener(new View.OnClickListener() {
+        searchIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                String address = locationET.getText().toString();
-                String category = (String) categorySP.getSelectedItem();
+                 if (checkValidity()){
 
 
-                if (address.equals("")){
+                     progressDialog.show();
 
-                    locationET.setError("This field is required !!!");
+                     city = cityET.getText().toString();
+                     category = (String) categorySP.getSelectedItem();
+                     country = getUserCountry(getContext());
 
-                }else {
+                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference
+                             ("User/Expert/"+ country+"/" + category+"/" + city);
 
-                    getLatLongFromPlace(address);
+                     Log.d("database", "User/Expert/"+ country+"/" + category+"/" + city);
 
-                    if (lat !=0 && lng !=0){
+                     reference.addValueEventListener(new ValueEventListener() {
+                         @Override
+                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        Intent intent = new Intent(getContext(), SearchResultActivity.class);
-                        intent.putExtra("lat", lat);
-                        intent.putExtra("lng", lng);
-                        intent.putExtra("category", category);
-                        startActivity(intent);
+                             expertList.clear();
+
+                             for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                                 UserModel user = snapshot.getValue(UserModel.class);
+                                 expertList.add(user);
+
+                             }
+
+                             ExpertListAdapter adapter = new ExpertListAdapter(getActivity(), getContext(), expertList);
+                             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+                             expertRV.setLayoutManager(layoutManager);
+                             expertRV.addItemDecoration(new GridSpacingItemDecoration(1, 0, true));
+                             expertRV.setItemAnimator(new DefaultItemAnimator());
+
+                             expertRV.setAdapter(adapter);
+                             adapter.notifyDataSetChanged();
+
+                             progressDialog.dismiss();
+
+                         }
+
+                         @Override
+                         public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                             progressDialog.dismiss();
+
+                         }
+                     });
 
 
-                    }
-                }
+                 }
 
 
 
-                lat = 0;
-                lng = 0;
+
 
 
 
@@ -106,117 +148,54 @@ public class SearchExpertFragment extends Fragment {
     }
 
 
-    public void getLatLongFromPlace(String place) {
+    public boolean checkValidity(){
+
+        if (cityET.getText().toString().equals("")){
+
+            cityET.setError("Please enter a valid city");
+            return false;
+
+        }else if (cityET.getText().toString().length()>0 && Character.isWhitespace(cityET.getText().toString().charAt(0))){
+
+            cityET.setError("City name cannot start with a space");
+            return false;
+
+        }else if (categorySP.getSelectedItemPosition() == 0){
+
+            Toast.makeText(getContext(), "Please select a valid category !!", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }else {
+
+            return true;
+        }
+
+    }
+
+
+    public String getUserCountry(Context context) {
         try {
-            Geocoder selected_place_geocoder = new Geocoder(getContext());
-            List<Address> address;
+            final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            final String simCountry = tm.getSimCountryIso();
+            if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
 
-            address = selected_place_geocoder.getFromLocationName(place, 5);
-
-            if (address == null) {
-              //  d.dismiss();
-                Toast.makeText(getContext(), "Invalid Address !!!", Toast.LENGTH_SHORT).show();
-            } else {
-                Address location = address.get(0);
-                 lat= location.getLatitude();
-                 lng = location.getLongitude();
+                Locale loc = new Locale("", simCountry);
+                return loc.getDisplayCountry();
 
             }
+            else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+                String networkCountry = tm.getNetworkCountryIso();
+                if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            fetchLatLongFromService fetch_latlng_from_service_abc = new fetchLatLongFromService(
-                    place.replaceAll("\\s+", ""));
-            fetch_latlng_from_service_abc.execute();
-
-        }
-
-    }
-
-
-//Sometimes happens that device gives location = null
-
-    public class fetchLatLongFromService extends AsyncTask<Void, Void, StringBuilder> {
-        String place;
-
-
-        public fetchLatLongFromService(String place) {
-            super();
-            this.place = place;
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            // TODO Auto-generated method stub
-            super.onCancelled();
-            this.cancel(true);
-        }
-
-        @Override
-        protected StringBuilder doInBackground(Void... params) {
-            // TODO Auto-generated method stub
-            try {
-                HttpURLConnection conn = null;
-                StringBuilder jsonResults = new StringBuilder();
-                String googleMapUrl = "http://maps.googleapis.com/maps/api/geocode/json?address="
-                        + this.place + "&sensor=false";
-
-                URL url = new URL(googleMapUrl);
-                conn = (HttpURLConnection) url.openConnection();
-                InputStreamReader in = new InputStreamReader(
-                        conn.getInputStream());
-                int read;
-                char[] buff = new char[1024];
-                while ((read = in.read(buff)) != -1) {
-                    jsonResults.append(buff, 0, read);
+                    Locale loc = new Locale("", networkCountry);
+                    return loc.getDisplayCountry();
                 }
-                String a = "";
-                return jsonResults;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(StringBuilder result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-            try {
-                JSONObject jsonObj = new JSONObject(result.toString());
-                JSONArray resultJsonArray = jsonObj.getJSONArray("results");
-
-                // Extract the Place descriptions from the results
-                // resultList = new ArrayList<String>(resultJsonArray.length());
-
-                JSONObject before_geometry_jsonObj = resultJsonArray
-                        .getJSONObject(0);
-
-                JSONObject geometry_jsonObj = before_geometry_jsonObj
-                        .getJSONObject("geometry");
-
-                JSONObject location_jsonObj = geometry_jsonObj
-                        .getJSONObject("location");
-
-                String lat_helper = location_jsonObj.getString("lat");
-                 lat = Double.valueOf(lat_helper);
-
-
-                String lng_helper = location_jsonObj.getString("lng");
-                lng = Double.valueOf(lng_helper);
-
-
-            //    LatLng point = new LatLng(lat, lng);
-
-
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
             }
         }
+        catch (Exception e) {
+
+            Log.d("error", e.getMessage());
+        }
+        return null;
     }
-
 }

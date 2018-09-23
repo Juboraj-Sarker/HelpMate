@@ -19,12 +19,11 @@ import android.widget.Toast;
 
 import com.juborajsarker.helpmate.R;
 
-public class UserDetailsActivity extends AppCompatActivity {
+public class ExpertDetailsActivity extends AppCompatActivity {
 
     ImageView userIV;
     TextView fullNameTV, userNameTV, phoneTV, emailTV, cityTV, countryTV;
-    LinearLayout emailLAYOUT, callLAYOUT, messageLAYOUT;
-
+    LinearLayout viewReviewLAYOUT ,emailLAYOUT, callLAYOUT, messageLAYOUT;
 
     String fullName, userName, phone, email, city, country, toUserId;
     public static final int MY_PERMISSIONS_REQUEST_CALL = 52;
@@ -32,7 +31,8 @@ public class UserDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
+        setContentView(R.layout.activity_expert_details);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
@@ -48,7 +48,9 @@ public class UserDetailsActivity extends AppCompatActivity {
         receiveData();
         setTitle(fullName);
 
+
     }
+
 
     private void init() {
 
@@ -59,10 +61,19 @@ public class UserDetailsActivity extends AppCompatActivity {
         emailTV = (TextView) findViewById(R.id.email_TV);
         cityTV = (TextView) findViewById(R.id.city_name_TV);
         countryTV = (TextView) findViewById(R.id.country_name_TV);
+        viewReviewLAYOUT = (LinearLayout) findViewById(R.id.view_review_LAYOUT);
         emailLAYOUT = (LinearLayout) findViewById(R.id.send_email_LAYOUT);
         callLAYOUT = (LinearLayout) findViewById(R.id.send_call_LAYOUT);
         messageLAYOUT = (LinearLayout) findViewById(R.id.send_message_LAYOUT);
 
+
+        viewReviewLAYOUT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
 
 
         emailLAYOUT.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +100,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(UserDetailsActivity.this, ChattingActivity.class);
+                Intent intent = new Intent(ExpertDetailsActivity.this, ChattingActivity.class);
                 intent.putExtra("toUserId", toUserId);
                 intent.putExtra("fullName", userName);
                 startActivity(intent);
@@ -128,7 +139,7 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         if (phoneTV.getText().toString().equals("")){
 
-            Toast.makeText(UserDetailsActivity.this, "No number found for phone call !!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExpertDetailsActivity.this, "No number found for phone call !!!", Toast.LENGTH_SHORT).show();
 
 
         }else {
@@ -162,7 +173,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(UserDetailsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ExpertDetailsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -170,11 +181,11 @@ public class UserDetailsActivity extends AppCompatActivity {
     public boolean checkCallPermission() {
 
 
-        if (ContextCompat.checkSelfPermission(UserDetailsActivity.this,
+        if (ContextCompat.checkSelfPermission(ExpertDetailsActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 
 
-            ActivityCompat.requestPermissions(UserDetailsActivity.this,
+            ActivityCompat.requestPermissions(ExpertDetailsActivity.this,
                     new String[]{Manifest.permission.CALL_PHONE},
                     MY_PERMISSIONS_REQUEST_CALL);
 
@@ -206,6 +217,4 @@ public class UserDetailsActivity extends AppCompatActivity {
         }
 
     }
-
-
 }

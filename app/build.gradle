@@ -49,6 +49,9 @@ dependencies {
 
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    implementation 'com.github.rubygarage:emotion-rating-view:v1.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

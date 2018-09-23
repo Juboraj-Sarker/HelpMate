@@ -7,6 +7,10 @@
     tools:context=".fragment.InboxFragment"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/toolbar"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_RV"
         android:layout_width="match_parent"

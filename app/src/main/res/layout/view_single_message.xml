@@ -19,14 +19,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="2dp"
-            android:background="@drawable/message_layout_background_sender">
+            android:paddingRight="16dp"
+            android:minWidth="50dp">
 
             <TextView
                 android:id="@+id/sender_message_text_TV"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="kire ki obostha"
-                android:padding="5dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="8dp"
                 android:textSize="14sp"
                 android:maxWidth="200dp"/>
 
@@ -35,13 +39,14 @@
 
         <TextView
             android:id="@+id/sender_date_time_TV"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5 march: 5.7"
             android:textSize="10sp"
-            android:maxWidth="200dp"
-            android:gravity="right"
-            android:textColor="@color/colorPrimary"/>
+            android:layout_gravity="right"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -57,7 +62,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="2dp"
-            android:background="@drawable/message_layout_background_receiver">
+            android:minWidth="50dp">
 
             <TextView
                 android:id="@+id/receiver_message_text_TV"
@@ -65,7 +70,10 @@
                 android:layout_height="wrap_content"
                 android:text="kire ki obostha"
                 android:textColor="@color/colorWhite"
-                android:padding="5dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="8dp"
                 android:textSize="14sp"
                 android:maxWidth="200dp"/>
 
@@ -74,13 +82,15 @@
 
         <TextView
             android:id="@+id/receiver_date_time_TV"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5 march: 5.7"
             android:textSize="10sp"
             android:maxWidth="200dp"
             android:gravity="left"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

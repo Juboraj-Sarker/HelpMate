@@ -3,7 +3,6 @@ package com.juborajsarker.helpmate.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.model.MessageModel;
 
@@ -23,6 +21,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     private Context context;
     List<MessageModel> messageList;
     String uid = FirebaseAuth.getInstance().getUid();
+    int counter = 0;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -61,7 +60,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         MessageModel message = messageList.get(position);
 
@@ -72,16 +71,48 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
          holder.receiverFullChildLAYOUT.setVisibility(View.GONE);
          holder.senderMessageTextTV.setText(message.getMainMessageText());
          holder.senderMessageDateTimeTV.setText(message.getDate() + " " + message.getTime());
+         holder.senderMessageTextTV.setBackgroundResource(R.drawable.outgoing_bubble);
 
         }else {
 
             holder.senderFulLChildLAYOUT.setVisibility(View.GONE);
             holder.receiverMessageTextTV.setText(message.getMainMessageText());
             holder.receiverMessageDateTimeTV.setText(message.getDate() + " " + message.getTime());
+            holder.receiverMessageTextTV.setBackgroundResource(R.drawable.incoming_bubble);
 
         }
 
 
+        holder.receiverFullChildLAYOUT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (holder.receiverMessageDateTimeTV.getVisibility()==View.GONE){
+
+                    holder.receiverMessageDateTimeTV.setVisibility(View.VISIBLE);
+
+                }else {
+
+                    holder.receiverMessageDateTimeTV.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        holder.senderFulLChildLAYOUT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (holder.senderMessageDateTimeTV.getVisibility() == View.GONE){
+
+                    holder.senderMessageDateTimeTV.setVisibility(View.VISIBLE);
+
+                }else {
+
+                    holder.senderMessageDateTimeTV.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
 

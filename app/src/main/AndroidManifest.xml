@@ -34,7 +34,9 @@
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.UserDetailsActivity" />
-        <activity android:name=".activity.ChattingActivity"></activity>
+        <activity android:name=".activity.ChattingActivity" />
+        <activity android:name=".activity.ExpertDetailsActivity" />
+        <activity android:name=".activity.GiveRatingActivity"></activity>
     </application>
 
 </manifest>

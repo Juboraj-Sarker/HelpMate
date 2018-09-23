@@ -1,21 +1,22 @@
 package com.juborajsarker.helpmate.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.adapter.MessageAdapter;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
 import com.juborajsarker.helpmate.java_class.GridSpacingItemDecoration;
+import com.juborajsarker.helpmate.model.LastChat;
 import com.juborajsarker.helpmate.model.MessageModel;
 import com.juborajsarker.helpmate.model.UserModel;
 
@@ -39,6 +41,7 @@ public class ChattingActivity extends AppCompatActivity {
 
     DatabaseReference reference;
     List<MessageModel> messageList = new ArrayList<>();
+    MessageAdapter messageAdapter;
 
     String messageText;
     String uid, userName, userFullName, sendFrom, sendTo, date, time, messageID, receiverName;
@@ -62,11 +65,11 @@ public class ChattingActivity extends AppCompatActivity {
         receiverName = intent.getStringExtra("fullName");
         setTitle(receiverName);
         init();
-        getMessage();
+
         uid = FirebaseAuth.getInstance().getUid();
         reference = FirebaseDatabase.getInstance().getReference("Chat/" + uid);
 
-
+        getMessage();
 
     }
 
@@ -91,12 +94,6 @@ public class ChattingActivity extends AppCompatActivity {
                     messageID = reference.push().getKey();
                     DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("User/All");
                     getUserInfo(userReference);
-
-
-
-
-
-
 
 
                 }
@@ -134,19 +131,19 @@ public class ChattingActivity extends AppCompatActivity {
                                 ("Chat/"+uid+"/" + sendTo);
                         senderReference.child(messageID).setValue(messageModel);
 
-
-                      //  messageModel.setSendTo(sendFrom);
-                      //  messageModel.setSendFrom(sendTo);
                         DatabaseReference receiverReference = FirebaseDatabase.getInstance().getReference
                                 ("Chat/"+sendTo+"/" + sendFrom);
                         receiverReference.child(messageID).setValue(messageModel);
 
                         messageET.setText("");
-                        getMessage();
+                        storeMessageForReceiver(messageModel);
+
 
 
                     }
                 }
+
+
 
             }
 
@@ -162,12 +159,15 @@ public class ChattingActivity extends AppCompatActivity {
     private void getMessage() {
 
         DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference("Chat/" + uid+ "/" + sendTo);
+        messageRef.keepSynced(true);
+
+
         messageRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 messageList.clear();
-
+                chatRV.removeAllViews();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     MessageModel message = snapshot.getValue(MessageModel.class);
@@ -179,6 +179,16 @@ public class ChattingActivity extends AppCompatActivity {
 
 
 
+                 messageAdapter = new MessageAdapter(ChattingActivity.this,
+                        ChattingActivity.this, messageList);
+
+                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(ChattingActivity.this, 1);
+                chatRV.setLayoutManager(layoutManager);
+                chatRV.addItemDecoration(new GridSpacingItemDecoration(1, 0, true));
+                chatRV.setItemAnimator(new DefaultItemAnimator());
+
+                chatRV.setAdapter(messageAdapter);
+                messageAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -188,22 +198,8 @@ public class ChattingActivity extends AppCompatActivity {
         });
 
 
-        MessageAdapter messageAdapter = new MessageAdapter(ChattingActivity.this, ChattingActivity.this, messageList);
-        RecyclerView.LayoutManager layoutManagerBeforeMeal = new GridLayoutManager(ChattingActivity.this, 1);
-        chatRV.setLayoutManager(layoutManagerBeforeMeal);
-        chatRV.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(2), true));
-        chatRV.setItemAnimator(new DefaultItemAnimator());
-
-        chatRV.setAdapter(messageAdapter);
-        messageAdapter.notifyDataSetChanged();
-
-    }
 
 
-
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
     public boolean checkValidity(){
@@ -244,4 +240,102 @@ public class ChattingActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference("Chat/" + uid+ "/" + sendTo);
+        messageRef.keepSynced(true);
+
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chat/" + uid);
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+        storeLastMessage();
+
+    }
+
+    private void storeLastMessage() {
+
+        if (messageList.size()>0){
+
+            String uid = FirebaseAuth.getInstance().getUid();
+            String userName = receiverName;
+            String lastMessageId = messageList.get(messageList.size()-1).getMessageID();
+            String lastMessageText = messageList.get(messageList.size()-1).getMainMessageText();
+            String lastMessageDate = messageList.get(messageList.size()-1).getDate();
+            String lastMessageTime = messageList.get(messageList.size()-1).getTime();
+
+            LastChat lastChat = new LastChat();
+            lastChat.setUid(sendTo);
+            lastChat.setUserName(userName);
+            lastChat.setLastMessageId(lastMessageId);
+            lastChat.setLastMessage(lastMessageText);
+            lastChat.setLastMessageDate(lastMessageDate);
+            lastChat.setLastMessageTime(lastMessageTime);
+
+
+            DatabaseReference lastRef = FirebaseDatabase.getInstance().getReference("LastChat/"+uid+"/"+sendTo);
+            lastRef.setValue(lastChat);
+        }
+    }
+
+
+    public void storeMessageForReceiver(MessageModel messageModel){
+
+        DatabaseReference receiverReference = FirebaseDatabase.getInstance().getReference
+                ("LastChat/"+sendTo+"/" + sendFrom);
+
+
+        String uid = FirebaseAuth.getInstance().getUid();
+        String lastMessageId = messageModel.getMessageID();
+        String lastMessageText = messageModel.getMainMessageText();
+        String lastMessageDate = messageModel.getDate();
+        String lastMessageTime = messageModel.getTime();
+
+        LastChat lastChat = new LastChat();
+        lastChat.setUid(sendFrom);
+        lastChat.setUserName(userName);
+        lastChat.setLastMessageId(lastMessageId);
+        lastChat.setLastMessage(lastMessageText);
+        lastChat.setLastMessageDate(lastMessageDate);
+        lastChat.setLastMessageTime(lastMessageTime);
+
+
+        DatabaseReference lastRef = FirebaseDatabase.getInstance().getReference("LastChat/"+uid+"/"+sendTo);
+        receiverReference.setValue(lastChat);
+
+
+    }
 }

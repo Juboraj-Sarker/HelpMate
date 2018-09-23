@@ -543,7 +543,7 @@ public class RegisterActivity extends AppCompatActivity {
             }if (computerServiceCB.isChecked()){
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("User/Expert/" +
-                        country + "/ComputerService/" + city);
+                        country + "/Computer/" + city);
 
                 pushData(databaseReference, uid, email, userName, fullName, phone, city, country,
                         password, url, isExpert, accountIsActivate, expertsList);
@@ -615,7 +615,7 @@ public class RegisterActivity extends AppCompatActivity {
             }if (gasTechnicianCB.isChecked()){
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("User/Expert/" +
-                        country + "/GasTechnician/" + city);
+                        country + "/Gas Technician/" + city);
 
                 pushData(databaseReference, uid, email, userName, fullName, phone, city, country,
                         password, url, isExpert, accountIsActivate, expertsList);
@@ -655,7 +655,7 @@ public class RegisterActivity extends AppCompatActivity {
             }if (mobileServicingCB.isChecked()){
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("User/Expert/" +
-                        country + "/MobileServicing/" + city);
+                        country + "/Mobile Servicing/" + city);
 
                 pushData(databaseReference, uid, email, userName, fullName, phone, city, country,
                         password, url, isExpert, accountIsActivate, expertsList);
@@ -687,7 +687,7 @@ public class RegisterActivity extends AppCompatActivity {
             }if (rentACarCB.isChecked()){
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("User/Expert/" +
-                        country + "/RentACar/" + city);
+                        country + "/Rent a Car/" + city);
 
                 pushData(databaseReference, uid, email, userName, fullName, phone, city, country,
                         password, url, isExpert, accountIsActivate, expertsList);
