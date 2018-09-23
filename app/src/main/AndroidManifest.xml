@@ -36,7 +36,8 @@
         <activity android:name=".activity.UserDetailsActivity" />
         <activity android:name=".activity.ChattingActivity" />
         <activity android:name=".activity.ExpertDetailsActivity" />
-        <activity android:name=".activity.GiveRatingActivity"></activity>
+        <activity android:name=".activity.GiveRatingActivity" />
+        <activity android:name=".activity.BitActivity"></activity>
     </application>
 
 </manifest>
