@@ -20,7 +20,7 @@ import com.juborajsarker.helpmate.model.UserModel;
 import java.util.List;
 
 /**
- * Created by jubor on 11/14/2017.
+ * Created by juboraj on 11/14/2017.
  */
 
 public class ExpertListAdapter extends RecyclerView.Adapter<ExpertListAdapter.MyViewHolder>{

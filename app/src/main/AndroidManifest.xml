@@ -35,9 +35,8 @@
         <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.UserDetailsActivity" />
         <activity android:name=".activity.ChattingActivity" />
-        <activity android:name=".activity.ExpertDetailsActivity" />
-        <activity android:name=".activity.GiveRatingActivity" />
         <activity android:name=".activity.BitActivity"></activity>
+        <activity android:name=".activity.ExpertDetailsActivity"></activity>
     </application>
 
 </manifest>
