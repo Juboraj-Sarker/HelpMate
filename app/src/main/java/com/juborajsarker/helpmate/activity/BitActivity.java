@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
-import com.juborajsarker.helpmate.model.BitModel;
+import com.juborajsarker.helpmate.model.BeatModel;
 import com.juborajsarker.helpmate.model.UserModel;
 
 import java.text.DateFormat;
@@ -47,7 +47,7 @@ public class BitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bit);
+        setContentView(R.layout.activity_beat);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
@@ -171,10 +171,10 @@ public class BitActivity extends AppCompatActivity {
 
         DateTimeConverter converter = new DateTimeConverter();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference
-                ("Bit/" + uid +"/" + postId);
+                ("Beat/All/" + uid);
         String bitId = reference.push().getKey();
 
-        BitModel bitModel = new BitModel();
+        BeatModel bitModel = new BeatModel();
         bitModel.setBitId(bitId);
         bitModel.setPostId(postId);
         bitModel.setUid(uid);
@@ -185,13 +185,13 @@ public class BitActivity extends AppCompatActivity {
         bitModel.setBitDate(converter.getCurrentDate());
         bitModel.setBitTime(converter.getCurrentTime());
         bitModel.setExpertUid(expertUid);
-        bitModel.setExpertName(expertUserName);
+        bitModel.setExpertName(userName);
         bitModel.setPostText(post);
 
         reference.child(bitId).setValue(bitModel);
 
         reference = FirebaseDatabase.getInstance().getReference
-                ("Bit/" + expertUid);
+                ("Beat/Expert/" + expertUid);
         reference.child(bitId).setValue(bitModel);
 
         Toast.makeText(this, "Successfully placed bit", Toast.LENGTH_SHORT).show();

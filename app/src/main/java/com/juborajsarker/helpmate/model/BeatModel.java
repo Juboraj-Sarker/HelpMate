@@ -1,6 +1,6 @@
 package com.juborajsarker.helpmate.model;
 
-public class BitModel {
+public class BeatModel {
 
     String bitId;
     String uid;
@@ -19,13 +19,13 @@ public class BitModel {
 
 
 
-    public BitModel() {
+    public BeatModel() {
 
     }
 
-    public BitModel(String bitId, String uid, int bitPrice, String description, String estimatedTime,
-                    String expectedStartDate, String bitDate, String bitTime, String postId, String postText,
-                    String expertUid, String expertName) {
+    public BeatModel(String bitId, String uid, int bitPrice, String description, String estimatedTime,
+                     String expectedStartDate, String bitDate, String bitTime, String postId, String postText,
+                     String expertUid, String expertName) {
 
         this.bitId = bitId;
         this.uid = uid;

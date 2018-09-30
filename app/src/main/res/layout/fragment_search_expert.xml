@@ -8,6 +8,10 @@
     tools:context="com.juborajsarker.helpmate.fragment.SearchExpertFragment">
 
 
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/toolbar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

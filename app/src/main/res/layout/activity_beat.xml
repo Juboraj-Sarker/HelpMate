@@ -157,7 +157,7 @@
                         android:hint="Ex: 3 days or 5 hours"
                         android:padding="8dp"
                         android:textSize="14sp"
-                        android:inputType="numberDecimal"
+                        android:inputType="text"
                         android:layout_marginBottom="2dp"/>
 
                     <TextView
@@ -174,7 +174,7 @@
                         android:hint="Ex: 10/12/2018"
                         android:padding="8dp"
                         android:textSize="14sp"
-                        android:inputType="numberDecimal"
+                        android:inputType="date"
                         android:layout_marginTop="2dp"/>
 
 

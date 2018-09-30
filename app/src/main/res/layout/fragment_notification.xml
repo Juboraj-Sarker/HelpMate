@@ -8,14 +8,20 @@
     android:orientation="vertical"
     tools:context=".fragment.NotificationFragment">
 
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/toolbar"/>
+
 
     <LinearLayout
+        android:id="@+id/no_notification_LAYOUT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="visible">
 
 
         <ImageView
@@ -26,6 +32,7 @@
             android:layout_gravity="center"/>
 
         <TextView
+            android:id="@+id/messageTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -35,5 +42,10 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/beat_RV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </LinearLayout>
