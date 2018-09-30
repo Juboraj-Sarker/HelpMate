@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,10 +35,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.juborajsarker.helpmate.R;
+import com.juborajsarker.helpmate.activity.BitActivity;
 import com.juborajsarker.helpmate.activity.UserDetailsActivity;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
-import com.juborajsarker.helpmate.java_class.GetSingleUserInfo;
 import com.juborajsarker.helpmate.model.CommentModel;
+import com.juborajsarker.helpmate.model.LikeModel;
 import com.juborajsarker.helpmate.model.PostModel;
 import com.juborajsarker.helpmate.model.UserModel;
 
@@ -56,6 +58,8 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
     public String uid;
     public String userName;
 
+    public List<LikeModel> likeList = new ArrayList<>();
+
 
     List<CommentModel> commentList = new ArrayList<>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -66,7 +70,7 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView postTV, userNameTV;
-        ImageView postIV, userIV;
+        ImageView postIV, userIV, likeIV;
         LinearLayout likeLAYOUT, commentLAYOUT, bitLAYOUT;
         CardView additionalCV;
         RecyclerView commentRV;
@@ -81,6 +85,7 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
             userNameTV = (TextView) view.findViewById(R.id.user_name_TV);
             postIV = (ImageView) view.findViewById(R.id.post_IV);
             userIV = (ImageView) view.findViewById(R.id.user_IV);
+            likeIV = (ImageView) view.findViewById(R.id.like_IV);
             likeLAYOUT = (LinearLayout) view.findViewById(R.id.like_LAYOUT);
             commentLAYOUT = (LinearLayout) view.findViewById(R.id.comment_LAYOUT);
             bitLAYOUT = (LinearLayout) view.findViewById(R.id.bit_LAYOUT);
@@ -104,6 +109,9 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
         this.isExpert = isExpert;
         this.uid = uid;
         this.userName = userName;
+
+
+
     }
 
     @Override
@@ -119,6 +127,17 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         final PostModel post = postList.get(position);
+
+        String likeId = post.getLikeUid();
+
+        if (likeId != null && likeId.contains(FirebaseAuth.getInstance().getUid())){
+
+            holder.likeIV.setColorFilter(activity.getResources().getColor(R.color.colorPrimary));
+        }
+
+
+
+
 
         holder.postTV.setText(post.getPostText());
         holder.userNameTV.setText(post.getUserName());
@@ -148,6 +167,27 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
             public void onClick(View v) {
 
 
+                String postID = post.getPostID();
+                String uid = FirebaseAuth.getInstance().getUid();
+                String postText = post.getPostText();
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Like/" + postID);
+                String likeId = reference.push().getKey();
+
+                LikeModel like = new LikeModel();
+                like.setLikeID(likeId);
+                like.setPostID(postID);
+                like.setUid(uid);
+                like.setPostText(postText);
+
+                reference.child(uid).setValue(like);
+                holder.likeIV.setColorFilter(activity.getResources().getColor(R.color.colorPrimary));
+
+                String postLikeUid = post.getLikeUid();
+                postLikeUid = postLikeUid + " " + uid;
+                post.setLikeUid(postLikeUid);
+                reference = FirebaseDatabase.getInstance().getReference("Post/All/" + postID);
+                reference.setValue(post);
 
             }
         });
@@ -196,6 +236,21 @@ PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
             public void onClick(View v) {
 
                showUserDetails(post);
+            }
+        });
+
+
+        holder.bitLAYOUT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, BitActivity.class);
+                intent.putExtra("userName", post.getUserName());
+                intent.putExtra("post", post.getPostText());
+                intent.putExtra("uid", post.getUserID());
+                intent.putExtra("postId", post.getPostID());
+                context.startActivity(intent);
+
             }
         });
 

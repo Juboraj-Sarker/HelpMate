@@ -2,12 +2,13 @@ package com.juborajsarker.helpmate.fragment;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -46,12 +47,17 @@ import com.google.firebase.storage.UploadTask;
 import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.adapter.PostAdapter;
 import com.juborajsarker.helpmate.java_class.DateTimeConverter;
+import com.juborajsarker.helpmate.model.LikeModel;
 import com.juborajsarker.helpmate.model.PostModel;
 import com.juborajsarker.helpmate.model.UserModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class HomeFragment extends Fragment {
@@ -68,6 +74,7 @@ public class HomeFragment extends Fragment {
 
     List<UserModel> modelList = new ArrayList<>();
     List<PostModel> postList = new ArrayList<>();
+    List<LikeModel> likeList = new ArrayList<>();
     PostAdapter postAdapter;
     String uid;
 
@@ -83,6 +90,7 @@ public class HomeFragment extends Fragment {
     ImageView contentIV;
     Button retakeBTN, cancelBTN;
 
+    boolean choosing = false;
 
 
     public HomeFragment() {
@@ -143,6 +151,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
 
+                if (isActiveUser){
+
+                    pickImage();
+
+                }else {
+
+                    Toast.makeText(getContext(), "You are not a verified user.", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -170,6 +186,7 @@ public class HomeFragment extends Fragment {
                         pushData(uid, pushKey, postText, databaseReference);
 
                         if (postImageCV.getVisibility() == View.VISIBLE){
+
 
                             storage = FirebaseStorage.getInstance();
                             storageReference = storage.getReference();
@@ -201,7 +218,16 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
 
-                takePhoto();
+                if (choosing){
+
+                    retakeBTN.setText("Re Choose");
+                    pickImage();
+
+                }else {
+
+                    retakeBTN.setText("Retake");
+                    takePhoto();
+                }
 
             }
         });
@@ -219,6 +245,16 @@ public class HomeFragment extends Fragment {
     }
 
 
+
+    public void pickImage() {
+        choosing = true;
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 99);
+    }
+
+
+
     private void loadData() {
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -229,6 +265,8 @@ public class HomeFragment extends Fragment {
 
             uid = user.getUid();
         }
+
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("User/All/");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -341,6 +379,7 @@ public class HomeFragment extends Fragment {
         post.setPostText(postText);
         post.setPostImageURL("url");
         post.setNoOfLike(0);
+        post.setLikeUid("");
 
         if (postImageCV.getVisibility() == View.VISIBLE){
 
@@ -403,6 +442,8 @@ public class HomeFragment extends Fragment {
 
     private void takePhoto() {
 
+        choosing = false;
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -423,7 +464,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 
             postRV.setVisibility(View.GONE);
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -431,6 +472,25 @@ public class HomeFragment extends Fragment {
             postImageCV.setVisibility(View.VISIBLE);
             contentIV.setImageBitmap(bMapScaled);
 
+        }else {
+
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    postRV.setVisibility(View.GONE);
+                    postImageCV.setVisibility(View.VISIBLE);
+                    contentIV.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+
+            }else {
+                Toast.makeText(getContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +89,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="1dp"
-                        android:background="#e5e5e5"
                         android:layout_marginTop="8dp">
 
 
@@ -103,6 +103,7 @@
                             android:layout_margin="2dp">
 
                             <ImageView
+                                android:id="@+id/like_IV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:srcCompat="@drawable/ic_like"

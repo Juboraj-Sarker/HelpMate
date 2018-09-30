@@ -8,6 +8,7 @@
     <color name="colorRed">#ec0a0e</color>
     <color name="colorBlack">#000</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorLike">#3371db</color>
 
 
 </resources>

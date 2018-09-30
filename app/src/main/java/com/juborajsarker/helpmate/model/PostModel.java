@@ -12,6 +12,7 @@ public class PostModel {
     String postImageURL;
     int noOfLike;
     boolean hasImage;
+    String likeUid;
 
 
     public PostModel() {
@@ -21,7 +22,7 @@ public class PostModel {
 
 
     public PostModel(String postID, String userID, String postType, String userName, String postTime,
-                     String postDate, String postText, String postImageURL, int noOfLike, boolean hasImage) {
+                     String postDate, String postText, String postImageURL, int noOfLike, boolean hasImage, String likeUid) {
 
         this.postID = postID;
         this.userID = userID;
@@ -33,6 +34,7 @@ public class PostModel {
         this.postImageURL = postImageURL;
         this.noOfLike = noOfLike;
         this.hasImage = hasImage;
+        this.likeUid = likeUid;
 
     }
 
@@ -114,5 +116,13 @@ public class PostModel {
 
     public void setHasImage(boolean hasImage) {
         this.hasImage = hasImage;
+    }
+
+    public String getLikeUid() {
+        return likeUid;
+    }
+
+    public void setLikeUid(String likeUid) {
+        this.likeUid = likeUid;
     }
 }
