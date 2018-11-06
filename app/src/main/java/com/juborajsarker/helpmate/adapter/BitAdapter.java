@@ -2,6 +2,7 @@ package com.juborajsarker.helpmate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.juborajsarker.helpmate.R;
+import com.juborajsarker.helpmate.activity.BitDetailsActivity;
 import com.juborajsarker.helpmate.model.BeatModel;
 
 import java.util.List;
 
-public class BeatAdapter extends RecyclerView.Adapter<BeatAdapter.MyViewHolder>{
+public class BitAdapter extends RecyclerView.Adapter<BitAdapter.MyViewHolder>{
 
     public Activity activity;
     public Context context;
@@ -43,7 +45,7 @@ public class BeatAdapter extends RecyclerView.Adapter<BeatAdapter.MyViewHolder>{
     }
 
 
-    public BeatAdapter(Activity activity, Context context, List<BeatModel> beatModelList) {
+    public BitAdapter(Activity activity, Context context, List<BeatModel> beatModelList) {
 
         this.activity = activity;
         this.context = context;
@@ -63,7 +65,7 @@ public class BeatAdapter extends RecyclerView.Adapter<BeatAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        BeatModel beat = beatModelList.get(position);
+        final BeatModel beat = beatModelList.get(position);
 
 
         holder.postTV.setText( beat.getExpertName()+" has beated on your post: " + beat.getPostText());
@@ -73,6 +75,17 @@ public class BeatAdapter extends RecyclerView.Adapter<BeatAdapter.MyViewHolder>{
         holder.fullChildCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(context, BitDetailsActivity.class);
+                intent.putExtra("postText", beat.getPostText());
+                intent.putExtra("bitBy", beat.getExpertName());
+                intent.putExtra("bitDescription", beat.getDescription());
+                intent.putExtra("bitBudget", String.valueOf(beat.getBitPrice()));
+                intent.putExtra("bitEstimatedTime", beat.getEstimatedTime());
+                intent.putExtra("bitExpectedStartDate", beat.getExpectedStartDate());
+                intent.putExtra("expertUid", beat.getExpertUid());
+
+                context.startActivity(intent);
 
 
             }

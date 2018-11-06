@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.juborajsarker.helpmate.R;
-import com.juborajsarker.helpmate.adapter.BeatAdapter;
+import com.juborajsarker.helpmate.adapter.BitAdapter;
 import com.juborajsarker.helpmate.model.BeatModel;
 
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public class NotificationFragment extends Fragment {
 
                     noNotificationLAYOUT.setVisibility(View.GONE);
                     beatRV.setVisibility(View.VISIBLE);
-                    BeatAdapter adapter = new BeatAdapter(getActivity(), getContext(), beatList);
+                    BitAdapter adapter = new BitAdapter(getActivity(), getContext(), beatList);
                     RecyclerView.LayoutManager layoutManagerBeforeMeal = new GridLayoutManager(getContext(), 1);
                     beatRV.setLayoutManager(layoutManagerBeforeMeal);
                     beatRV.setItemAnimator(new DefaultItemAnimator());

@@ -35,8 +35,12 @@
         <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.UserDetailsActivity" />
         <activity android:name=".activity.ChattingActivity" />
-        <activity android:name=".activity.BitActivity"></activity>
-        <activity android:name=".activity.ExpertDetailsActivity"></activity>
+        <activity android:name=".activity.BitActivity" />
+        <activity android:name=".activity.ExpertDetailsActivity" />
+        <activity android:name=".activity.BitDetailsActivity" />
+        <activity android:name=".activity.MyHelperActivity" />
+        <activity android:name=".activity.GiveRatingActivity" />
+        <activity android:name=".activity.ViewReviewActivity"></activity>
     </application>
 
 </manifest>

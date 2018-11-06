@@ -28,6 +28,7 @@
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/ic_user"
                 android:padding="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/round_shape"
                 android:layout_gravity="center"/>
 
@@ -38,7 +39,19 @@
                 android:textSize="18sp"
                 android:text="Juboraj Sarker"
                 android:padding="5dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_marginTop="10dp"/>
+
+
+            <TextView
+                android:id="@+id/my_helper_TV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:text="My Helper"
+                android:padding="5dp"
+                android:gravity="right|bottom"
+                android:background="?selectableItemBackground"/>
 
 
         </LinearLayout>

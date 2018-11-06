@@ -12,11 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.juborajsarker.helpmate.R;
 
 public class ExpertDetailsActivity extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class ExpertDetailsActivity extends AppCompatActivity {
     ImageView userIV;
     TextView fullNameTV, userNameTV, phoneTV, emailTV, cityTV, countryTV;
     LinearLayout viewReviewLAYOUT ,emailLAYOUT, callLAYOUT, messageLAYOUT;
+    Button hireBTN;
 
     String fullName, userName, phone, email, city, country, toUserId;
     public static final int MY_PERMISSIONS_REQUEST_CALL = 52;
@@ -66,11 +71,28 @@ public class ExpertDetailsActivity extends AppCompatActivity {
         callLAYOUT = (LinearLayout) findViewById(R.id.send_call_LAYOUT);
         messageLAYOUT = (LinearLayout) findViewById(R.id.send_message_LAYOUT);
 
+        hireBTN = (Button) findViewById(R.id.hire_BTN);
+        hireBTN.setVisibility(View.GONE);
+
+        hireBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String uid = FirebaseAuth.getInstance().getUid();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Hire/" + uid);
+
+
+            }
+        });
+
 
         viewReviewLAYOUT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Intent intent = new Intent(ExpertDetailsActivity.this, ViewReviewActivity.class);
+                intent.putExtra("expertUid", toUserId);
+                startActivity(intent);
 
             }
         });

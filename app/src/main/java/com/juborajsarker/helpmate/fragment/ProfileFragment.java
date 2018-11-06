@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.juborajsarker.helpmate.R;
 import com.juborajsarker.helpmate.activity.ForgetPasswordActivity;
 import com.juborajsarker.helpmate.activity.LoginActivity;
+import com.juborajsarker.helpmate.activity.MyHelperActivity;
 import com.juborajsarker.helpmate.model.UserModel;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
     DatabaseReference databaseReference;
     List<UserModel> modelList = new ArrayList<>();
 
-    TextView fullNameTV, userNameTV, emailTV, accountStatusTV;
+    TextView fullNameTV, userNameTV, emailTV, accountStatusTV, myHelperTV;
     ImageView accountStatusIV;
     LinearLayout changePassLAYOUT, logoutLAYOUT;
     ImageView userIV;
@@ -131,6 +132,7 @@ public class ProfileFragment extends Fragment {
         userNameTV = (TextView) view.findViewById(R.id.user_name_TV);
         emailTV = (TextView) view.findViewById(R.id.email_TV);
         accountStatusTV = (TextView) view.findViewById(R.id.account_status_TV);
+        myHelperTV = (TextView) view.findViewById(R.id.my_helper_TV);
 
         accountStatusIV = (ImageView) view.findViewById(R.id.account_status_IV);
 
@@ -139,6 +141,13 @@ public class ProfileFragment extends Fragment {
 
         userIV = (ImageView) view.findViewById(R.id.user_IV);
 
+        myHelperTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getContext().startActivity(new Intent(getContext(), MyHelperActivity.class));
+            }
+        });
 
         changePassLAYOUT.setOnClickListener(new View.OnClickListener() {
             @Override

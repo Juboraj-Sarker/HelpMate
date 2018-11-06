@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.BitDetailsActivity">
+
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/toolbar"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/post_TV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="The post text will go here."
+                            android:padding="8dp"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+           <android.support.v7.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="5dp"
+               android:padding="5dp">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:padding="2dp"
+                       android:layout_margin="5dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="Bit by:"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                       <TextView
+                           android:id="@+id/bit_by_TV"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="2"
+                           android:text="Expert Name"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:padding="5dp"
+                       android:layout_margin="2dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="Bit Description:"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                       <TextView
+                           android:id="@+id/bit_description_TV"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="2"
+                           android:text="Expert Name"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:padding="5dp"
+                       android:layout_margin="2dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="Bit budget:"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                       <TextView
+                           android:id="@+id/bit_price_TV"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="2"
+                           android:text="Expert Name"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:padding="5dp"
+                       android:layout_margin="2dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="Estimated Time"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                       <TextView
+                           android:id="@+id/bit_estimated_time_TV"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="2"
+                           android:text="Expert Name"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:padding="5dp"
+                       android:layout_margin="2dp">
+
+                       <TextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="Expected start date:"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                       <TextView
+                           android:id="@+id/bit_start_date_TV"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="2"
+                           android:text="Expert Name"
+                           android:padding="5dp"
+                           android:layout_gravity="center" />
+
+                   </LinearLayout>
+
+
+               </LinearLayout>
+
+
+
+
+           </android.support.v7.widget.CardView>
+
+
+
+            <Button
+                android:id="@+id/hire_BTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Hire"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

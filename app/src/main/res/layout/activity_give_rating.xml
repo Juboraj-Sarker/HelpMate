@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.GiveRatingActivity">
 
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/toolbar"/>
 
-    <com.dm.emotionrating.library.GradientBackgroundView
-        android:id="@+id/gradientBackgroundView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.dm.emotionrating.library.EmotionView
-        android:id="@+id/emotionView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.dm.emotionrating.library.RatingView
-        android:id="@+id/ratingView"
+    <RatingBar
+        android:id="@+id/rating_BAR"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
         android:padding="5dp"
-        app:gap="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emotionView" />
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:max="5" />
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/rating_ET"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/edittext_background"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:hint="Say Something"
+        android:gravity="top"
+        android:textSize="15sp"/>
+
+
+    <Button
+        android:id="@+id/submit_BTN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorPrimary"
+        android:text="Submit"
+        android:textColor="#fff"/>
+
+
+</LinearLayout>
 
